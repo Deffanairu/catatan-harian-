@@ -6,35 +6,404 @@
     <title>Catatan Harianku</title>
     
     <style>
-        /* Mengatur setelan dasar seluruh halaman HP */
+        * { box-sizing: border-box; }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
-            margin: 0;
-            padding: 20px;
-            color: #333;
-            min-height: 100vh;
+            margin: 0; padding: 20px; color: #333; min-height: 100vh;
+            position: relative; overflow-x: hidden; background-size: 300% 300%;
+            animation: gerakLatar 12s ease infinite; transition: background 2s ease-in-out;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* Mengatur tampilan bagian judul atas */
-        header {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #4a4e69;
+        /* TEMA DINAMIS WAKTU */
+        body.tema-pagi { background-image: linear-gradient(-45deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb); color: #2c3e50; }
+        body.tema-siang { background-image: linear-gradient(-45deg, #2980b9, #6dd5fa, #ffffff, #89f7fe); color: #1a252f; }
+        body.tema-sore { background-image: linear-gradient(-45deg, #ff512f, #dd2476, #8e54e9, #4776e6); color: #ffffff; }
+        body.tema-malam { background-image: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #141e30); color: #f1f2f6; }
+
+        @keyframes gerakLatar {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 28px;
-            font-weight: 700;
+        /* ELEMEN SUASANA LANGIT (PURE CSS) */
+        .sky-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0; overflow: hidden;
         }
 
-        header p {
-            margin: 5px 0 0 0;
-            font-size: 14px;
-            opacity: 0.8;
+        .celestial-body {
+            position: absolute; width: 70px; height: 70px; border-radius: 50%;
+            transition: all 1.5s ease-in-out; will-change: transform, opacity;
+        }
+        .tema-pagi .celestial-body { top: 15%; left: 10%; background: radial-gradient(circle, #fff7ad, #ffa07a); box-shadow: 0 0 40px rgba(255, 160, 122, 0.8); animation: terbitPagi 4s ease-out forwards, mengapung 6s ease-in-out infinite alternate; }
+        .tema-siang .celestial-body { top: 6%; right: 15%; background: radial-gradient(circle, #ffffff, #ffea75); box-shadow: 0 0 50px rgba(255, 234, 117, 0.9); animation: mengapung 5s ease-in-out infinite alternate; }
+        .tema-sore .celestial-body { top: 45%; right: 12%; background: radial-gradient(circle, #ff7e5f, #feb47b); box-shadow: 0 0 45px rgba(255, 126, 95, 0.8); animation: terbenam 4s ease-out forwards, mengapung 7s ease-in-out infinite alternate; }
+        .tema-malam .celestial-body { top: 10%; right: 12%; background: radial-gradient(circle, #ffffff, #dcdde1); box-shadow: 0 0 35px rgba(255, 255, 255, 0.6); animation: mengapung 8s ease-in-out infinite alternate; }
+
+        @keyframes terbitPagi { from { transform: translateY(60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes terbenam { from { transform: translateY(-40px); opacity: 0.5; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes mengapung { 0% { transform: translateY(0px); } 100% { transform: translateY(-8px); } }
+
+        .cloud { position: absolute; background: rgba(255, 255, 255, 0.45); border-radius: 50px; opacity: 0.7; }
+        .cloud::before, .cloud::after { content: ''; position: absolute; background: rgba(255, 255, 255, 0.45); border-radius: 50%; }
+        .cloud1 { width: 100px; height: 32px; top: 8%; animation: gerakAwan 28s linear infinite; }
+        .cloud1::before { width: 42px; height: 42px; top: -18px; left: 18px; }
+        .cloud1::after { width: 32px; height: 32px; top: -12px; right: 18px; }
+        .cloud2 { width: 140px; height: 42px; top: 22%; animation: gerakAwan 42s linear infinite; animation-delay: -15s; opacity: 0.5; }
+        .cloud2::before { width: 55px; height: 55px; top: -24px; left: 22px; }
+        .cloud2::after { width: 42px; height: 42px; top: -18px; right: 22px; }
+        .tema-malam .cloud, .tema-malam .cloud::before, .tema-malam .cloud::after { background: rgba(255, 255, 255, 0.12); }
+        @keyframes gerakAwan { from { left: -160px; } to { left: 105%; } }
+
+        .bird-group { position: absolute; top: 14%; animation: terbang 22s linear infinite; }
+        .tema-malam .bird-group { display: none; }
+        .bird { position: relative; width: 16px; height: 12px; display: inline-block; margin-right: 8px; }
+        .bird::before, .bird::after { content: ''; position: absolute; top: 0; width: 9px; height: 6px; border-top: 2px solid rgba(40,40,40,0.65); border-left: 2px solid rgba(40,40,40,0.65); border-top-left-radius: 8px; }
+        .bird::before { left: 0; transform-origin: right bottom; animation: kepak 0.8s ease-in-out infinite alternate; }
+        .bird::after { right: 0; transform: scaleX(-1); transform-origin: right bottom; animation: kepak 0.8s ease-in-out infinite alternate; }
+        .bird-2 { top: -6px; transform: scale(0.75); }
+        @keyframes kepak { 0% { transform: rotate(0deg); } 100% { transform: rotate(-35deg); } }
+        @keyframes terbang { from { left: -60px; } to { left: 105%; } }
+
+        /* WIDGET & HALAMAN */
+        .content-wrapper { position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 25px; }
+        header h1 { margin: 0; font-size: 28px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+        header p { margin: 5px 0 0 0; font-size: 14px; opacity: 0.9; }
+
+        .halaman {
+            display: none; background: rgba(255, 255, 255, 0.88); padding: 20px;
+            border-radius: 15px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            backdrop-filter: blur(10px); margin-bottom: 25px; color: #333;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        .halaman.aktif { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        textarea {
+            width: 100%; height: 120px; border: 2px solid #dcd6f7; border-radius: 10px;
+            padding: 12px; font-size: 16px; resize: none; outline: none; font-family: inherit;
+        }
+        textarea:focus { border-color: #6c5ce7; box-shadow: 0 0 8px rgba(108, 92, 231, 0.3); }
+
+        /* COUNTER KATA DAN KARAKTER */
+        .counter-box {
+            text-align: right; font-size: 12px; color: #666; margin-top: 4px; font-weight: 600;
         }
 
+        button {
+            width: 100%; background: #6c5ce7; color: white; border: none; padding: 14px;
+            font-size: 16px; font-weight: bold; border-radius: 10px; margin-top: 15px;
+            cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+        }
+        button:active { transform: scale(0.98); }
+
+        .btn-sekunder { background: #a29bfe; box-shadow: 0 4px 12px rgba(162, 155, 254, 0.3); }
+        .btn-batal { background: #ff7675; box-shadow: 0 4px 12px rgba(255, 118, 117, 0.3); }
+
+        .header-riwayat { display: flex; flex-direction: column; gap: 10px; border-bottom: 2px solid #e0e0e0; padding-bottom: 12px; margin-bottom: 15px; }
+        .header-riwayat h2 { margin: 0; font-size: 18px; color: #4a4e69; }
+
+        /* MOOD TRACKER SELECTION */
+        .container-mood {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .container-mood label {
+            font-size: 13px; font-weight: bold; color: #4a4e69; display: block; margin-bottom: 6px;
+        }
+        .pilihan-mood {
+            display: flex; gap: 10px; justify-content: space-between;
+        }
+        .pilihan-mood span {
+            font-size: 24px; padding: 8px; border-radius: 10px; cursor: pointer;
+            background: rgba(255, 255, 255, 0.6); border: 2px solid transparent;
+            transition: all 0.2s ease; flex: 1; text-align: center;
+        }
+        .pilihan-mood span:hover { transform: translateY(-2px); }
+        .pilihan-mood span.terpilih {
+            border-color: #6c5ce7; background: #e0dcfc; transform: scale(1.1);
+        }
+
+        /* UNGGAH FOTO */
+        .container-upload {
+            margin-top: 12px; text-align: left;
+        }
+        .container-upload label {
+            font-size: 13px; font-weight: bold; color: #4a4e69; display: block; margin-bottom: 6px;
+        }
+        .preview-box {
+            position: relative; margin-top: 8px; display: inline-block; max-width: 100%;
+        }
+        .preview-box img {
+            max-width: 100%; max-height: 180px; border-radius: 8px; border: 2px solid #dcd6f7; display: block;
+        }
+        .btn-batal-foto {
+            position: absolute; top: 6px; right: 6px; background: rgba(255, 118, 117, 0.9);
+            color: white; border: none; border-radius: 50%; width: 24px; height: 24px;
+            font-size: 12px; font-weight: bold; cursor: pointer; padding: 0; margin: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* FILTER & PENCARIAN */
+        .filter-box { display: flex; flex-direction: column; gap: 8px; }
+        .filter-row { display: flex; gap: 8px; }
+        input[type="date"], input[type="text"], input[type="file"] {
+            flex: 1; padding: 8px 12px; border: 2px solid #dcd6f7; border-radius: 8px;
+            outline: none; font-family: inherit; font-size: 14px; background: white;
+        }
+        input[type="text"]:focus, input[type="date"]:focus {
+            border-color: #6c5ce7;
+        }
+        .btn-reset { width: auto; margin-top: 0; padding: 8px 12px; background: #a29bfe; font-size: 12px; }
+
+        .pemisah-bulan {
+            background: #6c5ce7; color: white; padding: 6px 12px; border-radius: 6px;
+            font-size: 13px; font-weight: bold; margin: 15px 0 10px 0; text-align: left; display: inline-block;
+        }
+
+        #daftar-catatan { font-size: 14px; }
+
+        /* ITEM CATATAN MINIMALIS (TANPA TOMBOL TERLIHAT) */
+        .item-catatan {
+            background: #ffffff; padding: 15px; border-radius: 10px;
+            margin-bottom: 12px; text-align: left; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            position: relative; user-select: none; -webkit-user-select: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: pointer;
+        }
+        /* Efek saat menekan lama */
+        .item-catatan.ditekan {
+            transform: scale(0.98);
+            box-shadow: 0 0 12px rgba(108, 92, 231, 0.4);
+        }
+        .header-item-catatan {
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .info-header-kiri {
+            display: flex; align-items: center; gap: 8px;
+        }
+        .teks-mood { font-size: 18px; }
+        .teks-tanggal {
+            color: #6c5ce7; font-weight: bold; font-size: 12px;
+        }
+
+        .isi-teks-catatan {
+            margin: 8px 0 0 0; font-size: 15px; line-height: 1.5; color: #333;
+            white-space: pre-wrap; word-wrap: break-word;
+        }
+        .foto-catatan {
+            margin-top: 10px; width: 100%; max-height: 250px; object-fit: cover; border-radius: 8px;
+        }
+
+        /* MODAL CONTEXT MENU (POP-UP AKSI TEKAN LAMA) */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(3px);
+            z-index: 100; display: none; align-items: center; justify-content: center;
+            animation: fadeIn 0.2s ease;
+        }
+        .modal-overlay.aktif { display: flex; }
+        .modal-content {
+            background: white; width: 85%; max-width: 320px; border-radius: 15px;
+            padding: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: popUp 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popUp { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal-content h3 { margin: 0 0 5px 0; font-size: 16px; color: #4a4e69; }
+        .modal-content p { margin: 0 0 15px 0; font-size: 12px; color: #888; }
+        .modal-actions { display: flex; flex-direction: column; gap: 10px; }
+        .btn-modal {
+            width: 100%; padding: 12px; border: none; border-radius: 8px;
+            font-size: 14px; font-weight: bold; cursor: pointer; margin-top: 0;
+        }
+        .btn-modal-edit { background: #6c5ce7; color: white; }
+        .btn-modal-hapus { background: #ff7675; color: white; }
+        .btn-modal-batal { background: #e0e0e0; color: #555; box-shadow: none; }
+    </style>
+</head>
+<body id="body-layar">
+
+    <div class="sky-container">
+        <div class="celestial-body"></div>
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        <div class="bird-group">
+            <div class="bird"></div>
+            <div class="bird bird-2"></div>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+        <header>
+            <h1>Jurnal Harian</h1>
+            <p id="tanggal-otomatis"></p>
+        </header>
+
+        <!-- HALAMAN 1: TULIS / EDIT CATATAN -->
+        <div id="halaman-tulis" class="halaman aktif">
+            <!-- MOOD TRACKER -->
+            <div class="container-mood">
+                <label>Bagaimana perasaanmu hari ini?</label>
+                <div class="pilihan-mood">
+                    <span data-mood="😊" class="terpilih">😊</span>
+                    <span data-mood="😄">😄</span>
+                    <span data-mood="😐">😐</span>
+                    <span data-mood="😔">😔</span>
+                    <span data-mood="😡">😡</span>
+                </div>
+            </div>
+
+            <textarea id="isi-catatan" placeholder="Bagaimana harimu hari ini? Tulis di sini..."></textarea>
+            
+            <!-- HITUNG KATA DAN KARAKTER -->
+            <div class="counter-box">
+                <span id="hitung-kata">0 kata</span> | <span id="hitung-karakter">0 karakter</span>
+            </div>
+
+            <!-- UNGGAH FOTO -->
+            <div class="container-upload">
+                <label for="input-foto">📷 Tambahkan Foto Kenangan (Opsional):</label>
+                <input type="file" id="input-foto" accept="image/*">
+                <div id="area-preview" class="preview-box" style="display: none;">
+                    <img id="img-preview" src="" alt="Preview">
+                    <button id="btn-hapus-foto" class="btn-batal-foto" title="Batal Unggah">✕</button>
+                </div>
+            </div>
+
+            <button id="tombol-simpan">Simpan Catatan</button>
+            <button id="btn-batal-edit" class="btn-batal" style="display: none;">✖ Batal Edit</button>
+            <button id="btn-ke-riwayat" class="btn-sekunder">📖 Lihat Riwayat Catatan</button>
+        </div>
+
+        <!-- HALAMAN 2: RIWAYAT & PENCARIAN -->
+        <div id="halaman-riwayat" class="halaman">
+            <div class="header-riwayat">
+                <h2>Riwayat Catatan</h2>
+                <div class="filter-box">
+                    <input type="text" id="input-cari-teks" placeholder="🔍 Cari kata kunci...">
+                    <div class="filter-row">
+                        <input type="date" id="input-cari-tanggal">
+                        <button id="btn-reset-filter" class="btn-reset">Reset</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="daftar-catatan"></div>
+            <button id="btn-ke-tulis" class="btn-sekunder" style="margin-top: 20px;">✏️ Kembali Tulis Catatan</button>
+        </div>
+    </div>
+
+    <!-- MODAL POP-UP MENU OPSI (TEKAN LAMA / KLIK KANAN) -->
+    <div id="modal-opsi" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Pilihan Catatan</h3>
+            <p>Pilih tindakan untuk catatan ini</p>
+            <div class="modal-actions">
+                <button id="btn-opt-edit" class="btn-modal btn-modal-edit">✏️ Edit Catatan</button>
+                <button id="btn-opt-hapus" class="btn-modal btn-modal-hapus">🗑️ Hapus Catatan</button>
+                <button id="btn-opt-batal" class="btn-modal btn-modal-batal">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const daftarHari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+        const daftarBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+
+        function aturTemaDanTanggal() {
+            const skrg = new Date();
+            const jam = skrg.getHours();
+            const body = document.getElementById("body-layar");
+
+            document.getElementById("tanggal-otomatis").innerText = `${daftarHari[skrg.getDay()]}, ${skrg.getDate()} ${daftarBulan[skrg.getMonth()]} ${skrg.getFullYear()}`;
+
+            body.className = "";
+            if (jam >= 5 && jam < 11) body.classList.add("tema-pagi");
+            else if (jam >= 11 && jam < 15) body.classList.add("tema-siang");
+            else if (jam >= 15 && jam < 18) body.classList.add("tema-sore");
+            else body.classList.add("tema-malam");
+        }
+        aturTemaDanTanggal();
+
+        // STATE UNTUK EDIT & MODAL OPSI
+        let idCatatanSedangEdited = null;
+        let idCatatanTerpilihModal = null;
+
+        // LOGIK SELEKSI MOOD
+        let moodTerpilih = "😊";
+        const elemenMood = document.querySelectorAll(".pilihan-mood span");
+        
+        function aturMoodTerpilih(valMood) {
+            moodTerpilih = valMood;
+            elemenMood.forEach(m => {
+                if (m.getAttribute("data-mood") === valMood) {
+                    m.classList.add("terpilih");
+                } else {
+                    m.classList.remove("terpilih");
+                }
+            });
+        }
+
+        elemenMood.forEach(el => {
+            el.addEventListener("click", function() {
+                aturMoodTerpilih(this.getAttribute("data-mood"));
+            });
+        });
+
+        // HITUNG KATA DAN KARAKTER REAL-TIME
+        const kotakCatatan = document.getElementById("isi-catatan");
+        const spanKata = document.getElementById("hitung-kata");
+        const spanKarakter = document.getElementById("hitung-karakter");
+
+        function perbaruiCounter() {
+            const teks = kotakCatatan.value;
+            const jumlahKarakter = teks.length;
+            const kataArr = teks.trim().split(/\s+/).filter(item => item.length > 0);
+            const jumlahKata = kataArr.length;
+
+            spanKarakter.textContent = `${jumlahKarakter} karakter`;
+            spanKata.textContent = `${jumlahKata} kata`;
+        }
+
+        kotakCatatan.addEventListener("input", perbaruiCounter);
+
+        // BACA DAN PREVIEW FOTO (Base64)
+        const inputFoto = document.getElementById("input-foto");
+        const areaPreview = document.getElementById("area-preview");
+        const imgPreview = document.getElementById("img-preview");
+        const btnHapusFoto = document.getElementById("btn-hapus-foto");
+        let fotoBase64 = null;
+
+        inputFoto.addEventListener("change", function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    fotoBase64 = e.target.result;
+                    imgPreview.src = fotoBase64;
+                    areaPreview.style.display = "inline-block";
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        btnHapusFoto.addEventListener("click", function() {
+            fotoBase64 = null;
+            inputFoto.value = "";
+            areaPreview.style.display = "none";
+            imgPreview.src = "";
+        });
+
+        // NAVIGASI HALAMAN
+        const halTulis = document.getElementById("halaman-tulis");
+        const halRiwayat = document.getElementById("halaman-riwayat");
+        const btnKeRiwayat = document.getElementById("btn-ke-riwayat");
+        const btnKeTulis = document.getElementById("btn-ke-tulis");
+        const btnBatalEdit = document.getElementById("btn-batal-edit");
+        const tomb
         /* Mengatur kotak utama tempat menulis */
         main {
             background: rgba(255, 255, 255, 0.85);
