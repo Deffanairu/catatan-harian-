@@ -84,7 +84,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
         textarea {
-            width: 100%; height: 120px; border: 2px solid #dcd6f7; border-radius: 10px;
+            width: 100%; height: 130px; border: 2px solid #dcd6f7; border-radius: 10px;
             padding: 12px; font-size: 16px; resize: none; outline: none; font-family: inherit;
         }
         textarea:focus { border-color: #6c5ce7; box-shadow: 0 0 8px rgba(108, 92, 231, 0.3); }
@@ -106,27 +106,6 @@
 
         .header-riwayat { display: flex; flex-direction: column; gap: 10px; border-bottom: 2px solid #e0e0e0; padding-bottom: 12px; margin-bottom: 15px; }
         .header-riwayat h2 { margin: 0; font-size: 18px; color: #4a4e69; }
-
-        /* MOOD TRACKER SELECTION */
-        .container-mood {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-        .container-mood label {
-            font-size: 13px; font-weight: bold; color: #4a4e69; display: block; margin-bottom: 6px;
-        }
-        .pilihan-mood {
-            display: flex; gap: 10px; justify-content: space-between;
-        }
-        .pilihan-mood span {
-            font-size: 24px; padding: 8px; border-radius: 10px; cursor: pointer;
-            background: rgba(255, 255, 255, 0.6); border: 2px solid transparent;
-            transition: all 0.2s ease; flex: 1; text-align: center;
-        }
-        .pilihan-mood span:hover { transform: translateY(-2px); }
-        .pilihan-mood span.terpilih {
-            border-color: #6c5ce7; background: #e0dcfc; transform: scale(1.1);
-        }
 
         /* UNGGAH FOTO */
         .container-upload {
@@ -165,31 +144,24 @@
             font-size: 13px; font-weight: bold; margin: 15px 0 10px 0; text-align: left; display: inline-block;
         }
 
+        .petunjuk-opsi { font-size: 12px; color: #666; margin-bottom: 12px; text-align: left; }
+
         #daftar-catatan { font-size: 14px; }
 
-        /* ITEM CATATAN MINIMALIS (TANPA TOMBOL TERLIHAT) */
+        /* ITEM CATATAN MINIMALIS */
         .item-catatan {
             background: #ffffff; padding: 15px; border-radius: 10px;
             margin-bottom: 12px; text-align: left; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             position: relative; user-select: none; -webkit-user-select: none;
             transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: pointer;
         }
-        /* Efek saat menekan lama */
         .item-catatan.ditekan {
             transform: scale(0.98);
             box-shadow: 0 0 12px rgba(108, 92, 231, 0.4);
         }
-        .header-item-catatan {
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .info-header-kiri {
-            display: flex; align-items: center; gap: 8px;
-        }
-        .teks-mood { font-size: 18px; }
         .teks-tanggal {
-            color: #6c5ce7; font-weight: bold; font-size: 12px;
+            color: #6c5ce7; font-weight: bold; font-size: 12px; display: block;
         }
-
         .isi-teks-catatan {
             margin: 8px 0 0 0; font-size: 15px; line-height: 1.5; color: #333;
             white-space: pre-wrap; word-wrap: break-word;
@@ -198,12 +170,11 @@
             margin-top: 10px; width: 100%; max-height: 250px; object-fit: cover; border-radius: 8px;
         }
 
-        /* MODAL CONTEXT MENU (POP-UP AKSI TEKAN LAMA) */
+        /* MODAL POP-UP MENU OPSI (TEKAN LAMA / KLIK KANAN) */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(3px);
             z-index: 100; display: none; align-items: center; justify-content: center;
-            animation: fadeIn 0.2s ease;
         }
         .modal-overlay.aktif { display: flex; }
         .modal-content {
@@ -213,7 +184,7 @@
         }
         @keyframes popUp { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .modal-content h3 { margin: 0 0 5px 0; font-size: 16px; color: #4a4e69; }
-        .modal-content p { margin: 0 0 15px 0; font-size: 12px; color: #888; }
+        .modal-content p { margin: 0 0 15px 0; font-size: 13px; color: #888; }
         .modal-actions { display: flex; flex-direction: column; gap: 10px; }
         .btn-modal {
             width: 100%; padding: 12px; border: none; border-radius: 8px;
@@ -244,28 +215,14 @@
 
         <!-- HALAMAN 1: TULIS / EDIT CATATAN -->
         <div id="halaman-tulis" class="halaman aktif">
-            <!-- MOOD TRACKER -->
-            <div class="container-mood">
-                <label>Bagaimana perasaanmu hari ini?</label>
-                <div class="pilihan-mood">
-                    <span data-mood="😊" class="terpilih">😊</span>
-                    <span data-mood="😄">😄</span>
-                    <span data-mood="😐">😐</span>
-                    <span data-mood="😔">😔</span>
-                    <span data-mood="😡">😡</span>
-                </div>
-            </div>
-
             <textarea id="isi-catatan" placeholder="Bagaimana harimu hari ini? Tulis di sini..."></textarea>
             
-            <!-- HITUNG KATA DAN KARAKTER -->
             <div class="counter-box">
                 <span id="hitung-kata">0 kata</span> | <span id="hitung-karakter">0 karakter</span>
             </div>
 
-            <!-- UNGGAH FOTO -->
             <div class="container-upload">
-                <label for="input-foto">📷 Tambahkan Foto Kenangan (Opsional):</label>
+                <label for="input-foto">Tambahkan Foto Kenangan (Opsional):</label>
                 <input type="file" id="input-foto" accept="image/*">
                 <div id="area-preview" class="preview-box" style="display: none;">
                     <img id="img-preview" src="" alt="Preview">
@@ -274,8 +231,8 @@
             </div>
 
             <button id="tombol-simpan">Simpan Catatan</button>
-            <button id="btn-batal-edit" class="btn-batal" style="display: none;">✖ Batal Edit</button>
-            <button id="btn-ke-riwayat" class="btn-sekunder">📖 Lihat Riwayat Catatan</button>
+            <button id="btn-batal-edit" class="btn-batal" style="display: none;">Batal Edit</button>
+            <button id="btn-ke-riwayat" class="btn-sekunder">Lihat Riwayat Catatan</button>
         </div>
 
         <!-- HALAMAN 2: RIWAYAT & PENCARIAN -->
@@ -283,7 +240,7 @@
             <div class="header-riwayat">
                 <h2>Riwayat Catatan</h2>
                 <div class="filter-box">
-                    <input type="text" id="input-cari-teks" placeholder="🔍 Cari kata kunci...">
+                    <input type="text" id="input-cari-teks" placeholder="Cari kata kunci...">
                     <div class="filter-row">
                         <input type="date" id="input-cari-tanggal">
                         <button id="btn-reset-filter" class="btn-reset">Reset</button>
@@ -291,8 +248,9 @@
                 </div>
             </div>
 
+            <div class="petunjuk-opsi">Tahan lama atau klik kanan pada catatan untuk opsi edit atau hapus.</div>
             <div id="daftar-catatan"></div>
-            <button id="btn-ke-tulis" class="btn-sekunder" style="margin-top: 20px;">✏️ Kembali Tulis Catatan</button>
+            <button id="btn-ke-tulis" class="btn-sekunder" style="margin-top: 20px;">Kembali Tulis Catatan</button>
         </div>
     </div>
 
@@ -302,8 +260,8 @@
             <h3>Pilihan Catatan</h3>
             <p>Pilih tindakan untuk catatan ini</p>
             <div class="modal-actions">
-                <button id="btn-opt-edit" class="btn-modal btn-modal-edit">✏️ Edit Catatan</button>
-                <button id="btn-opt-hapus" class="btn-modal btn-modal-hapus">🗑️ Hapus Catatan</button>
+                <button id="btn-opt-edit" class="btn-modal btn-modal-edit">Edit Catatan</button>
+                <button id="btn-opt-hapus" class="btn-modal btn-modal-hapus">Hapus Catatan</button>
                 <button id="btn-opt-batal" class="btn-modal btn-modal-batal">Batal</button>
             </div>
         </div>
@@ -328,30 +286,8 @@
         }
         aturTemaDanTanggal();
 
-        // STATE UNTUK EDIT & MODAL OPSI
         let idCatatanSedangEdited = null;
         let idCatatanTerpilihModal = null;
-
-        // LOGIK SELEKSI MOOD
-        let moodTerpilih = "😊";
-        const elemenMood = document.querySelectorAll(".pilihan-mood span");
-        
-        function aturMoodTerpilih(valMood) {
-            moodTerpilih = valMood;
-            elemenMood.forEach(m => {
-                if (m.getAttribute("data-mood") === valMood) {
-                    m.classList.add("terpilih");
-                } else {
-                    m.classList.remove("terpilih");
-                }
-            });
-        }
-
-        elemenMood.forEach(el => {
-            el.addEventListener("click", function() {
-                aturMoodTerpilih(this.getAttribute("data-mood"));
-            });
-        });
 
         // HITUNG KATA DAN KARAKTER REAL-TIME
         const kotakCatatan = document.getElementById("isi-catatan");
@@ -430,7 +366,6 @@
         const inputCariTeks = document.getElementById("input-cari-teks");
         const btnReset = document.getElementById("btn-reset-filter");
 
-        // RESET FORM INPUT
         function resetFormTulis() {
             idCatatanSedangEdited = null;
             kotakCatatan.value = "";
@@ -440,7 +375,6 @@
             inputFoto.value = "";
             areaPreview.style.display = "none";
             imgPreview.src = "";
-            aturMoodTerpilih("😊");
             
             tombolSimpan.textContent = "Simpan Catatan";
             btnBatalEdit.style.display = "none";
@@ -462,21 +396,17 @@
             const skrg = new Date();
 
             if (idCatatanSedangEdited !== null) {
-                // MODE EDIT
                 const index = kumpulanCatatan.findIndex(item => item.id === idCatatanSedangEdited);
                 if (index !== -1) {
                     kumpulanCatatan[index].isi = teks;
-                    kumpulanCatatan[index].mood = moodTerpilih;
                     kumpulanCatatan[index].foto = fotoBase64;
                 }
             } else {
-                // MODE BARU
                 const catatanBaru = {
                     id: Date.now(),
                     isoDate: skrg.toISOString().split('T')[0],
                     tanggalTeks: document.getElementById("tanggal-otomatis").innerText,
                     bulanTahun: `${daftarBulan[skrg.getMonth()]} ${skrg.getFullYear()}`,
-                    mood: moodTerpilih,
                     isi: teks,
                     foto: fotoBase64
                 };
@@ -530,7 +460,6 @@
             hapusCatatan(id);
         });
 
-        // MUAT DATA UNTUK EDIT
         function muatDataUntukEdit(id) {
             const target = kumpulanCatatan.find(item => item.id === id);
             if (!target) return;
@@ -538,8 +467,6 @@
             idCatatanSedangEdited = id;
             kotakCatatan.value = target.isi;
             perbaruiCounter();
-
-            aturMoodTerpilih(target.mood || "😊");
 
             if (target.foto) {
                 fotoBase64 = target.foto;
@@ -552,7 +479,7 @@
                 imgPreview.src = "";
             }
 
-            tombolSimpan.textContent = "💾 Perbarui Catatan";
+            tombolSimpan.textContent = "Perbarui Catatan";
             btnBatalEdit.style.display = "block";
             bukaHalamanTulis();
         }
@@ -580,7 +507,6 @@
             tampilkanSemuaCatatan(kumpulanCatatan);
         });
 
-        // FUNGSI HAPUS CATATAN
         function hapusCatatan(id) {
             if (confirm("Apakah kamu yakin ingin menghapus catatan ini?")) {
                 kumpulanCatatan = kumpulanCatatan.filter(item => item.id !== id);
@@ -589,7 +515,7 @@
             }
         }
 
-        // RENDER CATATAN DENGAN DETEKSI PRESS & HOLD
+        // RENDER CATATAN
         function tampilkanSemuaCatatan(data) {
             areaDaftar.innerHTML = "";
 
@@ -604,7 +530,6 @@
             data.forEach(item => {
                 const teksTanggalFix = item.tanggalTeks || item.tanggal || "Catatan Lama";
                 const bulanTahunFix = item.bulanTahun || "Arsip Catatan";
-                const moodFix = item.mood || "📝";
 
                 if (bulanTahunFix !== bulanTerakhir && !adaFilterAktif) {
                     const divBulan = document.createElement("div");
@@ -617,34 +542,17 @@
                 const divItem = document.createElement("div");
                 divItem.className = "item-catatan";
 
-                // Header Card (Mood & Tanggal)
-                const divHeaderCard = document.createElement("div");
-                divHeaderCard.className = "header-item-catatan";
-
-                const divInfoKiri = document.createElement("div");
-                divInfoKiri.className = "info-header-kiri";
-
-                const spanMood = document.createElement("span");
-                spanMood.className = "teks-mood";
-                spanMood.textContent = moodFix;
-
                 const smallTanggal = document.createElement("small");
                 smallTanggal.className = "teks-tanggal";
                 smallTanggal.textContent = teksTanggalFix;
 
-                divInfoKiri.appendChild(spanMood);
-                divInfoKiri.appendChild(smallTanggal);
-                divHeaderCard.appendChild(divInfoKiri);
-
-                // Isi Paragraf Catatan
                 const pIsi = document.createElement("p");
                 pIsi.className = "isi-teks-catatan";
                 pIsi.textContent = item.isi;
 
-                divItem.appendChild(divHeaderCard);
+                divItem.appendChild(smallTanggal);
                 divItem.appendChild(pIsi);
 
-                // Render Foto Jika Ada
                 if (item.foto) {
                     const imgFoto = document.createElement("img");
                     imgFoto.className = "foto-catatan";
@@ -661,7 +569,7 @@
                     timerPress = setTimeout(() => {
                         divItem.classList.remove("ditekan");
                         bukaModalOpsi(item.id);
-                    }, 500); // Tahan selama 500ms (0.5 detik)
+                    }, 500);
                 }
 
                 function batalPress() {
@@ -669,17 +577,14 @@
                     if (timerPress) clearTimeout(timerPress);
                 }
 
-                // Event Layar Sentuh (Mobile)
                 divItem.addEventListener("touchstart", mulaiPress, { passive: true });
                 divItem.addEventListener("touchend", batalPress);
                 divItem.addEventListener("touchmove", batalPress);
 
-                // Event Mouse (Desktop Press & Hold)
                 divItem.addEventListener("mousedown", mulaiPress);
                 divItem.addEventListener("mouseup", batalPress);
                 divItem.addEventListener("mouseleave", batalPress);
 
-                // Event Klik Kanan (Desktop Context Menu)
                 divItem.addEventListener("contextmenu", function(e) {
                     e.preventDefault();
                     batalPress();
