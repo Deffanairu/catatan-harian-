@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catatan Harianku</title>
+    <title>Jurnal Harian</title>
     
     <style>
         * { box-sizing: border-box; }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0; padding: 20px; color: #333; min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0; padding: 24px; color: #2d3436; min-height: 100vh;
             position: relative; overflow-x: hidden; background-size: 300% 300%;
-            animation: gerakLatar 12s ease infinite; transition: background 2s ease-in-out;
-            -webkit-tap-highlight-color: transparent;
+            animation: gerakLatar 14s ease infinite; transition: background 2s ease-in-out;
+            -webkit-font-smoothing: antialiased;
         }
 
         /* TEMA DINAMIS WAKTU */
         body.tema-pagi { background-image: linear-gradient(-45deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb); color: #2c3e50; }
-        body.tema-siang { background-image: linear-gradient(-45deg, #2980b9, #6dd5fa, #ffffff, #89f7fe); color: #1a252f; }
-        body.tema-sore { background-image: linear-gradient(-45deg, #ff512f, #dd2476, #8e54e9, #4776e6); color: #ffffff; }
-        body.tema-malam { background-image: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #141e30); color: #f1f2f6; }
+        body.tema-siang { background-image: linear-gradient(-45deg, #89f7fe, #66a6ff, #d4fc79, #96e6a1); color: #1e272e; }
+        body.tema-sore { background-image: linear-gradient(-45deg, #f093fb, #f5576c, #4facfe, #00f2fe); color: #ffffff; }
+        body.tema-malam { background-image: linear-gradient(-45deg, #09203f, #537895, #141e30, #243b55); color: #f5f6fa; }
 
         @keyframes gerakLatar {
             0% { background-position: 0% 50%; }
@@ -28,171 +28,221 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* ELEMEN SUASANA LANGIT (PURE CSS) */
+        /* ELEMEN SUASANA LANGIT */
         .sky-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 0; overflow: hidden;
         }
-
         .celestial-body {
-            position: absolute; width: 70px; height: 70px; border-radius: 50%;
+            position: absolute; width: 64px; height: 64px; border-radius: 50%;
             transition: all 1.5s ease-in-out; will-change: transform, opacity;
         }
-        .tema-pagi .celestial-body { top: 15%; left: 10%; background: radial-gradient(circle, #fff7ad, #ffa07a); box-shadow: 0 0 40px rgba(255, 160, 122, 0.8); animation: terbitPagi 4s ease-out forwards, mengapung 6s ease-in-out infinite alternate; }
-        .tema-siang .celestial-body { top: 6%; right: 15%; background: radial-gradient(circle, #ffffff, #ffea75); box-shadow: 0 0 50px rgba(255, 234, 117, 0.9); animation: mengapung 5s ease-in-out infinite alternate; }
-        .tema-sore .celestial-body { top: 45%; right: 12%; background: radial-gradient(circle, #ff7e5f, #feb47b); box-shadow: 0 0 45px rgba(255, 126, 95, 0.8); animation: terbenam 4s ease-out forwards, mengapung 7s ease-in-out infinite alternate; }
-        .tema-malam .celestial-body { top: 10%; right: 12%; background: radial-gradient(circle, #ffffff, #dcdde1); box-shadow: 0 0 35px rgba(255, 255, 255, 0.6); animation: mengapung 8s ease-in-out infinite alternate; }
+        .tema-pagi .celestial-body { top: 12%; left: 10%; background: radial-gradient(circle, #ffffff, #ffb199); box-shadow: 0 0 35px rgba(255, 177, 153, 0.7); animation: terbitPagi 4s ease-out forwards, mengapung 6s ease-in-out infinite alternate; }
+        .tema-siang .celestial-body { top: 6%; right: 12%; background: radial-gradient(circle, #ffffff, #ffeaa7); box-shadow: 0 0 45px rgba(255, 234, 167, 0.8); animation: mengapung 5s ease-in-out infinite alternate; }
+        .tema-sore .celestial-body { top: 40%; right: 10%; background: radial-gradient(circle, #ff9a9e, #fecfef); box-shadow: 0 0 40px rgba(255, 154, 158, 0.7); animation: terbenam 4s ease-out forwards, mengapung 7s ease-in-out infinite alternate; }
+        .tema-malam .celestial-body { top: 10%; right: 10%; background: radial-gradient(circle, #ffffff, #dfe6e9); box-shadow: 0 0 30px rgba(255, 255, 255, 0.5); animation: mengapung 8s ease-in-out infinite alternate; }
 
-        @keyframes terbitPagi { from { transform: translateY(60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @keyframes terbenam { from { transform: translateY(-40px); opacity: 0.5; } to { transform: translateY(0); opacity: 1; } }
-        @keyframes mengapung { 0% { transform: translateY(0px); } 100% { transform: translateY(-8px); } }
+        @keyframes terbitPagi { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes terbenam { from { transform: translateY(-30px); opacity: 0.5; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes mengapung { 0% { transform: translateY(0px); } 100% { transform: translateY(-6px); } }
 
-        .cloud { position: absolute; background: rgba(255, 255, 255, 0.45); border-radius: 50px; opacity: 0.7; }
-        .cloud::before, .cloud::after { content: ''; position: absolute; background: rgba(255, 255, 255, 0.45); border-radius: 50%; }
-        .cloud1 { width: 100px; height: 32px; top: 8%; animation: gerakAwan 28s linear infinite; }
-        .cloud1::before { width: 42px; height: 42px; top: -18px; left: 18px; }
-        .cloud1::after { width: 32px; height: 32px; top: -12px; right: 18px; }
-        .cloud2 { width: 140px; height: 42px; top: 22%; animation: gerakAwan 42s linear infinite; animation-delay: -15s; opacity: 0.5; }
-        .cloud2::before { width: 55px; height: 55px; top: -24px; left: 22px; }
-        .cloud2::after { width: 42px; height: 42px; top: -18px; right: 22px; }
-        .tema-malam .cloud, .tema-malam .cloud::before, .tema-malam .cloud::after { background: rgba(255, 255, 255, 0.12); }
-        @keyframes gerakAwan { from { left: -160px; } to { left: 105%; } }
+        .cloud { position: absolute; background: rgba(255, 255, 255, 0.4); border-radius: 50px; opacity: 0.6; }
+        .cloud::before, .cloud::after { content: ''; position: absolute; background: rgba(255, 255, 255, 0.4); border-radius: 50%; }
+        .cloud1 { width: 90px; height: 28px; top: 8%; animation: gerakAwan 32s linear infinite; }
+        .cloud1::before { width: 36px; height: 36px; top: -16px; left: 16px; }
+        .cloud1::after { width: 28px; height: 28px; top: -10px; right: 16px; }
+        .cloud2 { width: 130px; height: 36px; top: 20%; animation: gerakAwan 48s linear infinite; animation-delay: -18s; opacity: 0.45; }
+        .cloud2::before { width: 48px; height: 48px; top: -20px; left: 20px; }
+        .cloud2::after { width: 36px; height: 36px; top: -14px; right: 20px; }
+        .tema-malam .cloud, .tema-malam .cloud::before, .tema-malam .cloud::after { background: rgba(255, 255, 255, 0.1); }
+        @keyframes gerakAwan { from { left: -150px; } to { left: 105%; } }
 
-        .bird-group { position: absolute; top: 14%; animation: terbang 22s linear infinite; }
+        .bird-group { position: absolute; top: 12%; animation: terbang 24s linear infinite; }
         .tema-malam .bird-group { display: none; }
-        .bird { position: relative; width: 16px; height: 12px; display: inline-block; margin-right: 8px; }
-        .bird::before, .bird::after { content: ''; position: absolute; top: 0; width: 9px; height: 6px; border-top: 2px solid rgba(40,40,40,0.65); border-left: 2px solid rgba(40,40,40,0.65); border-top-left-radius: 8px; }
+        .bird { position: relative; width: 14px; height: 10px; display: inline-block; margin-right: 6px; }
+        .bird::before, .bird::after { content: ''; position: absolute; top: 0; width: 8px; height: 5px; border-top: 1.5px solid rgba(40,40,40,0.55); border-left: 1.5px solid rgba(40,40,40,0.55); border-top-left-radius: 6px; }
         .bird::before { left: 0; transform-origin: right bottom; animation: kepak 0.8s ease-in-out infinite alternate; }
         .bird::after { right: 0; transform: scaleX(-1); transform-origin: right bottom; animation: kepak 0.8s ease-in-out infinite alternate; }
-        .bird-2 { top: -6px; transform: scale(0.75); }
-        @keyframes kepak { 0% { transform: rotate(0deg); } 100% { transform: rotate(-35deg); } }
-        @keyframes terbang { from { left: -60px; } to { left: 105%; } }
+        .bird-2 { top: -5px; transform: scale(0.75); }
+        @keyframes kepak { 0% { transform: rotate(0deg); } 100% { transform: rotate(-30deg); } }
+        @keyframes terbang { from { left: -50px; } to { left: 105%; } }
 
-        /* WIDGET & HALAMAN */
-        .content-wrapper { position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
-        header { text-align: center; margin-bottom: 25px; }
-        header h1 { margin: 0; font-size: 28px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.15); }
-        header p { margin: 5px 0 0 0; font-size: 14px; opacity: 0.9; }
+        /* KONTEN UTAMA */
+        .content-wrapper { position: relative; z-index: 1; max-width: 580px; margin: 0 auto; }
+        
+        header { text-align: center; margin-bottom: 24px; }
+        header h1 {
+            margin: 0; font-size: 26px; font-weight: 700; color: #2c3e50;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.08);
+        }
+        header p {
+            margin: 6px 0 0 0; font-size: 13px; font-weight: 400; opacity: 0.85;
+        }
 
         .halaman {
-            display: none; background: rgba(255, 255, 255, 0.88); padding: 20px;
-            border-radius: 15px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-            backdrop-filter: blur(10px); margin-bottom: 25px; color: #333;
-            animation: fadeIn 0.4s ease-in-out;
+            display: none; background: rgba(255, 255, 255, 0.92); padding: 22px;
+            border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            backdrop-filter: blur(12px); margin-bottom: 24px; color: #2d3436;
+            animation: fadeIn 0.3s ease-out; border: 1px solid rgba(255, 255, 255, 0.8);
         }
         .halaman.aktif { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* GARIS TEPI BIRU LEMBUT TEXTAREA */
         textarea {
-            width: 100%; height: 130px; border: 2px solid #dcd6f7; border-radius: 10px;
-            padding: 12px; font-size: 16px; resize: none; outline: none; font-family: inherit;
+            width: 100%; height: 130px; border: 2px solid #dcd6f7; border-radius: 12px;
+            padding: 14px; font-size: 15px; line-height: 1.6; resize: none; outline: none;
+            font-family: inherit; transition: all 0.25s ease; background: #ffffff;
+            color: #2d3436;
         }
-        textarea:focus { border-color: #6c5ce7; box-shadow: 0 0 8px rgba(108, 92, 231, 0.3); }
-
-        /* COUNTER KATA DAN KARAKTER */
-        .counter-box {
-            text-align: right; font-size: 12px; color: #666; margin-top: 4px; font-weight: 600;
+        textarea:focus {
+            border-color: #a29bfe;
+            box-shadow: 0 0 10px rgba(162, 155, 254, 0.4);
         }
 
+        .penghitung-karakter {
+            text-align: right; font-size: 11px; color: #7f8c8d; margin-top: 6px; margin-bottom: 12px;
+        }
+
+        /* AREA UPLOAD FOTO */
+        .area-upload-opsional {
+            margin-top: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .label-upload {
+            font-size: 12px;
+            font-weight: 600;
+            color: #2d3436;
+        }
+
+        .input-file-custom {
+            width: 100%;
+            padding: 8px 12px;
+            font-size: 13px;
+            border: 2px solid #dcd6f7;
+            border-radius: 10px;
+            background: #ffffff;
+            color: #555;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+        .input-file-custom:focus {
+            border-color: #a29bfe;
+        }
+
+        #preview-foto {
+            width: 100%; height: auto; max-height: 260px; border-radius: 10px;
+            display: none; margin-top: 8px; object-fit: contain; background: #00000005;
+            border: 2px solid #dcd6f7;
+        }
+
+        /* TOMBOL UTAMA */
         button {
-            width: 100%; background: #6c5ce7; color: white; border: none; padding: 14px;
-            font-size: 16px; font-weight: bold; border-radius: 10px; margin-top: 15px;
-            cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+            width: 100%; background: #6c5ce7; color: white; border: none; padding: 14px 18px;
+            font-size: 14px; font-weight: 600; letter-spacing: 0.3px; border-radius: 10px;
+            margin-top: 14px; cursor: pointer; transition: all 0.2s ease;
+            box-shadow: 0 4px 14px rgba(108, 92, 231, 0.3);
         }
-        button:active { transform: scale(0.98); }
+        button:active { transform: scale(0.99); background: #5b4cc4; }
 
-        .btn-sekunder { background: #a29bfe; box-shadow: 0 4px 12px rgba(162, 155, 254, 0.3); }
-        .btn-batal { background: #ff7675; box-shadow: 0 4px 12px rgba(255, 118, 117, 0.3); }
+        .btn-sekunder {
+            background: #a29bfe; color: #ffffff; border: none;
+            box-shadow: 0 4px 14px rgba(162, 155, 254, 0.3); margin-top: 10px;
+        }
+        .btn-sekunder:active { background: #8e84f5; }
 
-        .header-riwayat { display: flex; flex-direction: column; gap: 10px; border-bottom: 2px solid #e0e0e0; padding-bottom: 12px; margin-bottom: 15px; }
-        .header-riwayat h2 { margin: 0; font-size: 18px; color: #4a4e69; }
-
-        /* UNGGAH FOTO */
-        .container-upload {
-            margin-top: 12px; text-align: left;
+        .header-riwayat {
+            display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid #edf2f7;
+            padding-bottom: 14px; margin-bottom: 18px;
         }
-        .container-upload label {
-            font-size: 13px; font-weight: bold; color: #4a4e69; display: block; margin-bottom: 6px;
-        }
-        .preview-box {
-            position: relative; margin-top: 8px; display: inline-block; max-width: 100%;
-        }
-        .preview-box img {
-            max-width: 100%; max-height: 180px; border-radius: 8px; border: 2px solid #dcd6f7; display: block;
-        }
-        .btn-batal-foto {
-            position: absolute; top: 6px; right: 6px; background: rgba(255, 118, 117, 0.9);
-            color: white; border: none; border-radius: 50%; width: 24px; height: 24px;
-            font-size: 12px; font-weight: bold; cursor: pointer; padding: 0; margin: 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        .header-riwayat h2 {
+            margin: 0; font-size: 16px; font-weight: 600; color: #2f3542; letter-spacing: 0.3px;
         }
 
-        /* FILTER & PENCARIAN */
-        .filter-box { display: flex; flex-direction: column; gap: 8px; }
-        .filter-row { display: flex; gap: 8px; }
-        input[type="date"], input[type="text"], input[type="file"] {
-            flex: 1; padding: 8px 12px; border: 2px solid #dcd6f7; border-radius: 8px;
-            outline: none; font-family: inherit; font-size: 14px; background: white;
+        .input-cari-teks {
+            width: 100%; padding: 10px 12px; border: 2px solid #dcd6f7; border-radius: 10px;
+            outline: none; font-family: inherit; font-size: 13px; background: #ffffff;
+            color: #2d3436; transition: border-color 0.2s ease;
         }
-        input[type="text"]:focus, input[type="date"]:focus {
-            border-color: #6c5ce7;
+        .input-cari-teks:focus { border-color: #6c5ce7; }
+
+        .filter-box { display: flex; gap: 8px; }
+        input[type="date"] {
+            flex: 1; padding: 8px 12px; border: 2px solid #dcd6f7; border-radius: 10px;
+            outline: none; font-family: inherit; font-size: 13px; background: #ffffff;
+            color: #2d3436;
         }
-        .btn-reset { width: auto; margin-top: 0; padding: 8px 12px; background: #a29bfe; font-size: 12px; }
+        input[type="date"]:focus { border-color: #6c5ce7; }
+
+        .btn-reset {
+            width: auto; margin-top: 0; padding: 8px 14px; background: #a29bfe;
+            color: white; font-size: 12px; font-weight: 500; box-shadow: none;
+        }
+        .btn-reset:active { background: #8e84f5; }
 
         .pemisah-bulan {
-            background: #6c5ce7; color: white; padding: 6px 12px; border-radius: 6px;
-            font-size: 13px; font-weight: bold; margin: 15px 0 10px 0; text-align: left; display: inline-block;
+            background: #6c5ce7; color: #ffffff; padding: 4px 10px; border-radius: 6px;
+            font-size: 11px; font-weight: 600; letter-spacing: 0.5px;
+            margin: 16px 0 10px 0; display: inline-block;
         }
 
-        .petunjuk-opsi { font-size: 12px; color: #666; margin-bottom: 12px; text-align: left; }
+        /* KARTU CATATAN */
+        .kartu-catatan {
+            background: #ffffff; padding: 16px; border-radius: 12px; margin-bottom: 12px;
+            text-align: left; border: 1px solid #eef0f5; box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            transition: border-color 0.2s ease;
+        }
+        
+        .tgl-catatan {
+            font-size: 12px; color: #6c5ce7; font-weight: 600; letter-spacing: 0.2px;
+        }
+
+        .isi-teks-catatan {
+            margin: 8px 0 0 0; font-size: 14px; line-height: 1.6; color: #2f3542;
+            white-space: pre-wrap; word-break: break-word;
+        }
+
+        .kartu-catatan img {
+            width: 100%; height: auto; border-radius: 8px; margin-top: 12px;
+            display: block; cursor: pointer; transition: opacity 0.2s ease;
+            border: 1px solid #edf2f7;
+        }
+        .kartu-catatan img:active { opacity: 0.85; }
+
+        /* MODAL FULLSCREEN */
+        .modal-gambar {
+            display: none; position: fixed; z-index: 9999; top: 0; left: 0;
+            width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px); flex-direction: column; justify-content: center;
+            align-items: center; padding: 12px; overflow: hidden; touch-action: none;
+        }
+        .modal-gambar.aktif { display: flex; animation: fadeIn 0.25s ease-out; }
+        
+        .modal-content-wrapper {
+            width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+        }
+        
+        .modal-gambar img {
+            max-width: 95%; max-height: 85vh; border-radius: 6px; object-fit: contain;
+            transition: transform 0.2s ease-out; transform-origin: center center;
+            user-select: none;
+        }
+
+        .btn-tutup-modal {
+            position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.15);
+            color: white; border: none; font-size: 16px; font-weight: 300; border-radius: 50%;
+            width: 38px; height: 38px; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; z-index: 10000; transition: background 0.2s;
+            margin: 0; padding: 0; box-shadow: none;
+        }
+        .btn-tutup-modal:active { background: rgba(255,255,255,0.3); }
 
         #daftar-catatan { font-size: 14px; }
-
-        /* ITEM CATATAN MINIMALIS */
-        .item-catatan {
-            background: #ffffff; padding: 15px; border-radius: 10px;
-            margin-bottom: 12px; text-align: left; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            position: relative; user-select: none; -webkit-user-select: none;
-            transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: pointer;
-        }
-        .item-catatan.ditekan {
-            transform: scale(0.98);
-            box-shadow: 0 0 12px rgba(108, 92, 231, 0.4);
-        }
-        .teks-tanggal {
-            color: #6c5ce7; font-weight: bold; font-size: 12px; display: block;
-        }
-        .isi-teks-catatan {
-            margin: 8px 0 0 0; font-size: 15px; line-height: 1.5; color: #333;
-            white-space: pre-wrap; word-wrap: break-word;
-        }
-        .foto-catatan {
-            margin-top: 10px; width: 100%; max-height: 250px; object-fit: cover; border-radius: 8px;
-        }
-
-        /* MODAL POP-UP MENU OPSI (TEKAN LAMA / KLIK KANAN) */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(3px);
-            z-index: 100; display: none; align-items: center; justify-content: center;
-        }
-        .modal-overlay.aktif { display: flex; }
-        .modal-content {
-            background: white; width: 85%; max-width: 320px; border-radius: 15px;
-            padding: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            animation: popUp 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        @keyframes popUp { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .modal-content h3 { margin: 0 0 5px 0; font-size: 16px; color: #4a4e69; }
-        .modal-content p { margin: 0 0 15px 0; font-size: 13px; color: #888; }
-        .modal-actions { display: flex; flex-direction: column; gap: 10px; }
-        .btn-modal {
-            width: 100%; padding: 12px; border: none; border-radius: 8px;
-            font-size: 14px; font-weight: bold; cursor: pointer; margin-top: 0;
-        }
-        .btn-modal-edit { background: #6c5ce7; color: white; }
-        .btn-modal-hapus { background: #ff7675; color: white; }
-        .btn-modal-batal { background: #e0e0e0; color: #555; box-shadow: none; }
     </style>
 </head>
 <body id="body-layar">
@@ -207,31 +257,32 @@
         </div>
     </div>
 
+    <!-- MODAL POPUP FULLSCREEN & ZOOM -->
+    <div id="modal-viewer" class="modal-gambar">
+        <button class="btn-tutup-modal" id="btn-tutup-modal">✕</button>
+        <div class="modal-content-wrapper" id="modal-wrapper">
+            <img id="img-fullscreen" src="" alt="Lampiran Foto">
+        </div>
+    </div>
+
     <div class="content-wrapper">
         <header>
             <h1>Jurnal Harian</h1>
             <p id="tanggal-otomatis"></p>
         </header>
 
-        <!-- HALAMAN 1: TULIS / EDIT CATATAN -->
+        <!-- HALAMAN 1: TULIS CATATAN -->
         <div id="halaman-tulis" class="halaman aktif">
             <textarea id="isi-catatan" placeholder="Bagaimana harimu hari ini? Tulis di sini..."></textarea>
+            <div class="penghitung-karakter" id="penghitung-karakter">0 kata | 0 karakter</div>
             
-            <div class="counter-box">
-                <span id="hitung-kata">0 kata</span> | <span id="hitung-karakter">0 karakter</span>
-            </div>
-
-            <div class="container-upload">
-                <label for="input-foto">Tambahkan Foto Kenangan (Opsional):</label>
-                <input type="file" id="input-foto" accept="image/*">
-                <div id="area-preview" class="preview-box" style="display: none;">
-                    <img id="img-preview" src="" alt="Preview">
-                    <button id="btn-hapus-foto" class="btn-batal-foto" title="Batal Unggah">✕</button>
-                </div>
+            <div class="area-upload-opsional">
+                <label class="label-upload" for="input-foto">Tambahkan Foto Kenangan (Opsional):</label>
+                <input type="file" id="input-foto" class="input-file-custom" accept="image/*">
+                <img id="preview-foto" src="" alt="Pratinjau Foto">
             </div>
 
             <button id="tombol-simpan">Simpan Catatan</button>
-            <button id="btn-batal-edit" class="btn-batal" style="display: none;">Batal Edit</button>
             <button id="btn-ke-riwayat" class="btn-sekunder">Lihat Riwayat Catatan</button>
         </div>
 
@@ -239,31 +290,15 @@
         <div id="halaman-riwayat" class="halaman">
             <div class="header-riwayat">
                 <h2>Riwayat Catatan</h2>
+                <input type="text" id="input-cari-teks" class="input-cari-teks" placeholder="Cari berdasarkan kata kunci...">
                 <div class="filter-box">
-                    <input type="text" id="input-cari-teks" placeholder="Cari kata kunci...">
-                    <div class="filter-row">
-                        <input type="date" id="input-cari-tanggal">
-                        <button id="btn-reset-filter" class="btn-reset">Reset</button>
-                    </div>
+                    <input type="date" id="input-cari-tanggal">
+                    <button id="btn-reset-filter" class="btn-reset">Reset</button>
                 </div>
             </div>
 
-            <div class="petunjuk-opsi">Tahan lama atau klik kanan pada catatan untuk opsi edit atau hapus.</div>
             <div id="daftar-catatan"></div>
-            <button id="btn-ke-tulis" class="btn-sekunder" style="margin-top: 20px;">Kembali Tulis Catatan</button>
-        </div>
-    </div>
-
-    <!-- MODAL POP-UP MENU OPSI (TEKAN LAMA / KLIK KANAN) -->
-    <div id="modal-opsi" class="modal-overlay">
-        <div class="modal-content">
-            <h3>Pilihan Catatan</h3>
-            <p>Pilih tindakan untuk catatan ini</p>
-            <div class="modal-actions">
-                <button id="btn-opt-edit" class="btn-modal btn-modal-edit">Edit Catatan</button>
-                <button id="btn-opt-hapus" class="btn-modal btn-modal-hapus">Hapus Catatan</button>
-                <button id="btn-opt-batal" class="btn-modal btn-modal-batal">Batal</button>
-            </div>
+            <button id="btn-ke-tulis" class="btn-sekunder" style="margin-top: 18px;">Kembali Tulis Catatan</button>
         </div>
     </div>
 
@@ -286,65 +321,16 @@
         }
         aturTemaDanTanggal();
 
-        let idCatatanSedangEdited = null;
-        let idCatatanTerpilihModal = null;
-
-        // HITUNG KATA DAN KARAKTER REAL-TIME
-        const kotakCatatan = document.getElementById("isi-catatan");
-        const spanKata = document.getElementById("hitung-kata");
-        const spanKarakter = document.getElementById("hitung-karakter");
-
-        function perbaruiCounter() {
-            const teks = kotakCatatan.value;
-            const jumlahKarakter = teks.length;
-            const kataArr = teks.trim().split(/\s+/).filter(item => item.length > 0);
-            const jumlahKata = kataArr.length;
-
-            spanKarakter.textContent = `${jumlahKarakter} karakter`;
-            spanKata.textContent = `${jumlahKata} kata`;
-        }
-
-        kotakCatatan.addEventListener("input", perbaruiCounter);
-
-        // BACA DAN PREVIEW FOTO (Base64)
-        const inputFoto = document.getElementById("input-foto");
-        const areaPreview = document.getElementById("area-preview");
-        const imgPreview = document.getElementById("img-preview");
-        const btnHapusFoto = document.getElementById("btn-hapus-foto");
-        let fotoBase64 = null;
-
-        inputFoto.addEventListener("change", function() {
-            const file = this.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    fotoBase64 = e.target.result;
-                    imgPreview.src = fotoBase64;
-                    areaPreview.style.display = "inline-block";
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        btnHapusFoto.addEventListener("click", function() {
-            fotoBase64 = null;
-            inputFoto.value = "";
-            areaPreview.style.display = "none";
-            imgPreview.src = "";
-        });
-
         // NAVIGASI HALAMAN
         const halTulis = document.getElementById("halaman-tulis");
         const halRiwayat = document.getElementById("halaman-riwayat");
         const btnKeRiwayat = document.getElementById("btn-ke-riwayat");
         const btnKeTulis = document.getElementById("btn-ke-tulis");
-        const btnBatalEdit = document.getElementById("btn-batal-edit");
-        const tombolSimpan = document.getElementById("tombol-simpan");
 
         function bukaHalamanRiwayat() {
             halTulis.classList.remove("aktif");
             halRiwayat.classList.add("aktif");
-            tampilkanSemuaCatatan(kumpulanCatatan);
+            tampilkanCatatan();
         }
 
         function bukaHalamanTulis() {
@@ -353,247 +339,212 @@
         }
 
         btnKeRiwayat.addEventListener("click", bukaHalamanRiwayat);
-        btnKeTulis.addEventListener("click", function() {
-            resetFormTulis();
-            bukaHalamanTulis();
-        });
+        btnKeTulis.addEventListener("click", bukaHalamanTulis);
 
-        // DATA LOCALSTORAGE
+        // DATA & STORAGE
         let kumpulanCatatan = JSON.parse(localStorage.getItem("data_jurnal")) || [];
+        let fotoDataUrlTemp = "";
 
-        const areaDaftar = document.getElementById("daftar-catatan");
-        const inputCariTanggal = document.getElementById("input-cari-tanggal");
-        const inputCariTeks = document.getElementById("input-cari-teks");
-        const btnReset = document.getElementById("btn-reset-filter");
+        // PENGHITUNG KATA DAN KARAKTER
+        const isiCatatan = document.getElementById("isi-catatan");
+        const penghitungKarakter = document.getElementById("penghitung-karakter");
 
-        function resetFormTulis() {
-            idCatatanSedangEdited = null;
-            kotakCatatan.value = "";
-            spanKata.textContent = "0 kata";
-            spanKarakter.textContent = "0 karakter";
-            fotoBase64 = null;
-            inputFoto.value = "";
-            areaPreview.style.display = "none";
-            imgPreview.src = "";
-            
-            tombolSimpan.textContent = "Simpan Catatan";
-            btnBatalEdit.style.display = "none";
-        }
-
-        btnBatalEdit.addEventListener("click", function() {
-            resetFormTulis();
-            bukaHalamanRiwayat();
+        isiCatatan.addEventListener("input", function() {
+            const teks = this.value.trim();
+            const jmlKarakter = this.value.length;
+            const jmlKata = teks === "" ? 0 : teks.split(/\s+/).length;
+            penghitungKarakter.innerText = `${jmlKata} kata | ${jmlKarakter} karakter`;
         });
 
-        // PROSES SIMPAN / PERBARUI CATATAN
-        tombolSimpan.addEventListener("click", function() {
-            const teks = kotakCatatan.value.trim();
-            if (teks === "") {
-                alert("Tulis sesuatu dulu ya sebelum disimpan!");
+        // PROSES UNGGAH GAMBAR
+        const inputFoto = document.getElementById("input-foto");
+        const previewFoto = document.getElementById("preview-foto");
+
+        inputFoto.addEventListener("change", function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = function() {
+                        const canvas = document.createElement("canvas");
+                        const ctx = canvas.getContext("2d");
+                        const maxDim = 1200;
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > height && width > maxDim) {
+                            height *= maxDim / width; width = maxDim;
+                        } else if (height > maxDim) {
+                            width *= maxDim / height; height = maxDim;
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        fotoDataUrlTemp = canvas.toDataURL("image/jpeg", 0.82);
+                        previewFoto.src = fotoDataUrlTemp;
+                        previewFoto.style.display = "block";
+                    };
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // SIMPAN CATATAN
+        document.getElementById("tombol-simpan").addEventListener("click", function() {
+            const teks = isiCatatan.value.trim();
+            if (teks === "" && !fotoDataUrlTemp) {
+                alert("Silakan masukkan teks atau lampirkan foto terlebih dahulu.");
                 return;
             }
 
             const skrg = new Date();
+            const catatanBaru = {
+                id: Date.now(),
+                isoDate: skrg.toISOString().split('T')[0],
+                tanggalTeks: document.getElementById("tanggal-otomatis").innerText,
+                bulanTahun: `${daftarBulan[skrg.getMonth()]} ${skrg.getFullYear()}`,
+                isi: teks,
+                foto: fotoDataUrlTemp
+            };
 
-            if (idCatatanSedangEdited !== null) {
-                const index = kumpulanCatatan.findIndex(item => item.id === idCatatanSedangEdited);
-                if (index !== -1) {
-                    kumpulanCatatan[index].isi = teks;
-                    kumpulanCatatan[index].foto = fotoBase64;
-                }
-            } else {
-                const catatanBaru = {
-                    id: Date.now(),
-                    isoDate: skrg.toISOString().split('T')[0],
-                    tanggalTeks: document.getElementById("tanggal-otomatis").innerText,
-                    bulanTahun: `${daftarBulan[skrg.getMonth()]} ${skrg.getFullYear()}`,
-                    isi: teks,
-                    foto: fotoBase64
-                };
-                kumpulanCatatan.unshift(catatanBaru);
-            }
+            kumpulanCatatan.unshift(catatanBaru);
+            localStorage.setItem("data_jurnal", JSON.stringify(kumpulanCatatan));
 
-            try {
-                localStorage.setItem("data_jurnal", JSON.stringify(kumpulanCatatan));
-            } catch (e) {
-                alert("Penyimpanan penuh! Foto terlalu besar untuk disimpan di browser.");
-                if (idCatatanSedangEdited === null) kumpulanCatatan.shift();
-                return;
-            }
+            isiCatatan.value = "";
+            penghitungKarakter.innerText = "0 kata | 0 karakter";
+            fotoDataUrlTemp = "";
+            previewFoto.style.display = "none";
+            inputFoto.value = "";
 
-            resetFormTulis();
-            inputCariTanggal.value = "";
-            inputCariTeks.value = "";
             bukaHalamanRiwayat();
         });
 
-        // MODAL KONTROL OPSI TEKAN LAMA
-        const modalOpsi = document.getElementById("modal-opsi");
-        const btnOptEdit = document.getElementById("btn-opt-edit");
-        const btnOptHapus = document.getElementById("btn-opt-hapus");
-        const btnOptBatal = document.getElementById("btn-opt-batal");
+        // RENDER RIWAYAT CATATAN
+        const areaDaftar = document.getElementById("daftar-catatan");
+        const inputCariTanggal = document.getElementById("input-cari-tanggal");
+        const inputCariTeks = document.getElementById("input-cari-teks");
+        const btnResetFilter = document.getElementById("btn-reset-filter");
 
-        function bukaModalOpsi(id) {
-            idCatatanTerpilihModal = id;
-            modalOpsi.classList.add("aktif");
-        }
+        function tampilkanCatatan() {
+            areaDaftar.innerHTML = "";
+            const tglFilter = inputCariTanggal.value;
+            const teksFilter = inputCariTeks.value.toLowerCase().trim();
 
-        function tutupModalOpsi() {
-            idCatatanTerpilihModal = null;
-            modalOpsi.classList.remove("aktif");
-        }
-
-        btnOptBatal.addEventListener("click", tutupModalOpsi);
-        modalOpsi.addEventListener("click", function(e) {
-            if (e.target === modalOpsi) tutupModalOpsi();
-        });
-
-        btnOptEdit.addEventListener("click", function() {
-            const id = idCatatanTerpilihModal;
-            tutupModalOpsi();
-            muatDataUntukEdit(id);
-        });
-
-        btnOptHapus.addEventListener("click", function() {
-            const id = idCatatanTerpilihModal;
-            tutupModalOpsi();
-            hapusCatatan(id);
-        });
-
-        function muatDataUntukEdit(id) {
-            const target = kumpulanCatatan.find(item => item.id === id);
-            if (!target) return;
-
-            idCatatanSedangEdited = id;
-            kotakCatatan.value = target.isi;
-            perbaruiCounter();
-
-            if (target.foto) {
-                fotoBase64 = target.foto;
-                imgPreview.src = fotoBase64;
-                areaPreview.style.display = "inline-block";
-            } else {
-                fotoBase64 = null;
-                inputFoto.value = "";
-                areaPreview.style.display = "none";
-                imgPreview.src = "";
-            }
-
-            tombolSimpan.textContent = "Perbarui Catatan";
-            btnBatalEdit.style.display = "block";
-            bukaHalamanTulis();
-        }
-
-        // FITUR FILTER & PENCARIAN GABUNGAN
-        function terapkanFilter() {
-            const tglDicari = inputCariTanggal.value;
-            const kataKunci = inputCariTeks.value.toLowerCase().trim();
-
-            const hasilFilter = kumpulanCatatan.filter(item => {
-                const cocokTanggal = tglDicari ? item.isoDate === tglDicari : true;
-                const cocokTeks = kataKunci ? item.isi.toLowerCase().includes(kataKunci) : true;
-                return cocokTanggal && cocokTeks;
+            const dataFiltered = kumpulanCatatan.filter(item => {
+                const cocokTgl = !tglFilter || item.isoDate === tglFilter;
+                const cocokTeks = !teksFilter || (item.isi && item.isi.toLowerCase().includes(teksFilter));
+                return cocokTgl && cocokTeks;
             });
 
-            tampilkanSemuaCatatan(hasilFilter);
-        }
-
-        inputCariTanggal.addEventListener("change", terapkanFilter);
-        inputCariTeks.addEventListener("input", terapkanFilter);
-
-        btnReset.addEventListener("click", function() {
-            inputCariTanggal.value = "";
-            inputCariTeks.value = "";
-            tampilkanSemuaCatatan(kumpulanCatatan);
-        });
-
-        function hapusCatatan(id) {
-            if (confirm("Apakah kamu yakin ingin menghapus catatan ini?")) {
-                kumpulanCatatan = kumpulanCatatan.filter(item => item.id !== id);
-                localStorage.setItem("data_jurnal", JSON.stringify(kumpulanCatatan));
-                terapkanFilter();
-            }
-        }
-
-        // RENDER CATATAN
-        function tampilkanSemuaCatatan(data) {
-            areaDaftar.innerHTML = "";
-
-            if (data.length === 0) {
-                areaDaftar.innerHTML = "<p style='text-align:center;'>Tidak ada catatan yang ditemukan.</p>";
+            if (dataFiltered.length === 0) {
+                areaDaftar.innerHTML = "<p style='text-align:center; color:#7f8c8d; font-size:13px; margin:24px 0;'>Tidak ada catatan yang sesuai.</p>";
                 return;
             }
 
             let bulanTerakhir = "";
-            const adaFilterAktif = inputCariTanggal.value || inputCariTeks.value.trim();
 
-            data.forEach(item => {
-                const teksTanggalFix = item.tanggalTeks || item.tanggal || "Catatan Lama";
-                const bulanTahunFix = item.bulanTahun || "Arsip Catatan";
+            dataFiltered.forEach(item => {
+                const teksTgl = item.tanggalTeks || item.tanggal || "Arsip Catatan";
+                const blnThn = item.bulanTahun || "Arsip";
 
-                if (bulanTahunFix !== bulanTerakhir && !adaFilterAktif) {
+                if (blnThn !== bulanTerakhir && !tglFilter && !teksFilter) {
                     const divBulan = document.createElement("div");
                     divBulan.className = "pemisah-bulan";
-                    divBulan.innerText = bulanTahunFix;
+                    divBulan.innerText = blnThn;
                     areaDaftar.appendChild(divBulan);
-                    bulanTerakhir = bulanTahunFix;
+                    bulanTerakhir = blnThn;
                 }
 
                 const divItem = document.createElement("div");
-                divItem.className = "item-catatan";
-
-                const smallTanggal = document.createElement("small");
-                smallTanggal.className = "teks-tanggal";
-                smallTanggal.textContent = teksTanggalFix;
-
-                const pIsi = document.createElement("p");
-                pIsi.className = "isi-teks-catatan";
-                pIsi.textContent = item.isi;
-
-                divItem.appendChild(smallTanggal);
-                divItem.appendChild(pIsi);
-
-                if (item.foto) {
-                    const imgFoto = document.createElement("img");
-                    imgFoto.className = "foto-catatan";
-                    imgFoto.src = item.foto;
-                    imgFoto.alt = "Foto Kenangan";
-                    divItem.appendChild(imgFoto);
-                }
-
-                // EVENT LISTENER: DETEKSI PRESS & HOLD / LONG PRESS
-                let timerPress = null;
-
-                function mulaiPress() {
-                    divItem.classList.add("ditekan");
-                    timerPress = setTimeout(() => {
-                        divItem.classList.remove("ditekan");
-                        bukaModalOpsi(item.id);
-                    }, 500);
-                }
-
-                function batalPress() {
-                    divItem.classList.remove("ditekan");
-                    if (timerPress) clearTimeout(timerPress);
-                }
-
-                divItem.addEventListener("touchstart", mulaiPress, { passive: true });
-                divItem.addEventListener("touchend", batalPress);
-                divItem.addEventListener("touchmove", batalPress);
-
-                divItem.addEventListener("mousedown", mulaiPress);
-                divItem.addEventListener("mouseup", batalPress);
-                divItem.addEventListener("mouseleave", batalPress);
-
-                divItem.addEventListener("contextmenu", function(e) {
-                    e.preventDefault();
-                    batalPress();
-                    bukaModalOpsi(item.id);
-                });
-
+                divItem.className = "kartu-catatan";
+                divItem.innerHTML = `
+                    <div class="tgl-catatan">${teksTgl}</div>
+                    ${item.isi ? `<p class="isi-teks-catatan">${item.isi}</p>` : ''}
+                    ${item.foto ? `<img src="${item.foto}" alt="Lampiran Catatan" onclick="bukaModalGambar('${item.foto}')">` : ''}
+                `;
                 areaDaftar.appendChild(divItem);
             });
         }
+
+        inputCariTanggal.addEventListener("change", tampilkanCatatan);
+        inputCariTeks.addEventListener("input", tampilkanCatatan);
+        btnResetFilter.addEventListener("click", function() {
+            inputCariTanggal.value = "";
+            inputCariTeks.value = "";
+            tampilkanCatatan();
+        });
+
+        // MODAL FULLSCREEN & ZOOM
+        const modalViewer = document.getElementById("modal-viewer");
+        const imgFullscreen = document.getElementById("img-fullscreen");
+        const btnTutupModal = document.getElementById("btn-tutup-modal");
+
+        let zoomLevel = 1;
+        let startDist = 0;
+        let lastTouchTime = 0;
+
+        window.bukaModalGambar = function(srcUrl) {
+            imgFullscreen.src = srcUrl;
+            zoomLevel = 1;
+            imgFullscreen.style.transform = `scale(${zoomLevel})`;
+            modalViewer.classList.add("aktif");
+        };
+
+        function tutupModal() {
+            modalViewer.classList.remove("aktif");
+            imgFullscreen.src = "";
+            zoomLevel = 1;
+        }
+
+        btnTutupModal.addEventListener("click", tutupModal);
+        modalViewer.addEventListener("click", function(e) {
+            if (e.target === modalViewer || e.target.id === "modal-wrapper") {
+                tutupModal();
+            }
+        });
+
+        // Double Tap Zoom
+        imgFullscreen.addEventListener("click", function(e) {
+            e.stopPropagation();
+            const skrg = new Date().getTime();
+            if (skrg - lastTouchTime < 300) {
+                zoomLevel = (zoomLevel > 1) ? 1 : 2.2;
+                imgFullscreen.style.transform = `scale(${zoomLevel})`;
+            }
+            lastTouchTime = skrg;
+        });
+
+        // Pinch-to-Zoom
+        modalViewer.addEventListener("touchstart", function(e) {
+            if (e.touches.length === 2) {
+                startDist = Math.hypot(
+                    e.touches[0].pageX - e.touches[1].pageX,
+                    e.touches[0].pageY - e.touches[1].pageY
+                );
+            }
+        }, { passive: true });
+
+        modalViewer.addEventListener("touchmove", function(e) {
+            if (e.touches.length === 2 && startDist > 0) {
+                const currentDist = Math.hypot(
+                    e.touches[0].pageX - e.touches[1].pageX,
+                    e.touches[0].pageY - e.touches[1].pageY
+                );
+                const scaleDiff = currentDist / startDist;
+                let newZoom = Math.min(Math.max(zoomLevel * scaleDiff, 1), 3.5);
+                imgFullscreen.style.transform = `scale(${newZoom})`;
+            }
+        }, { passive: true });
+
+        modalViewer.addEventListener("touchend", function(e) {
+            if (e.touches.length < 2) {
+                startDist = 0;
+            }
+        }, { passive: true });
     </script>
 </body>
 </html>
