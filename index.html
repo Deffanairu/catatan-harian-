@@ -104,6 +104,7 @@
             text-align: right; font-size: 11px; color: #7f8c8d; margin-top: 6px; margin-bottom: 12px;
         }
 
+        /* AREA UPLOAD FOTO MULTI */
         .area-upload-opsional {
             margin-top: 8px;
             display: flex;
@@ -133,11 +134,39 @@
             border-color: #a29bfe;
         }
 
-        #preview-foto {
-            width: 100%; height: auto; max-height: 260px; border-radius: 10px;
-            display: none; margin-top: 8px; object-fit: contain; background: #00000005;
+        /* CONTAINER GRID FOTO */
+        .galeri-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .galeri-grid-detail {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .foto-item-preview {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 8px;
             border: 2px solid #dcd6f7;
         }
+
+        .foto-item-detail {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #edf2f7;
+            cursor: pointer;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .foto-item-detail:active { opacity: 0.85; transform: scale(0.97); }
 
         /* TOMBOL */
         button {
@@ -153,6 +182,22 @@
             box-shadow: 0 4px 14px rgba(162, 155, 254, 0.3); margin-top: 10px;
         }
         .btn-sekunder:active { background: #8e84f5; }
+
+        .btn-grup-detail {
+            display: flex;
+            gap: 10px;
+            margin-top: 18px;
+        }
+        .btn-edit {
+            background: #0984e3; box-shadow: 0 4px 12px rgba(9, 132, 227, 0.25);
+            margin-top: 0; flex: 1;
+        }
+        .btn-edit:active { background: #076bb8; }
+        .btn-hapus {
+            background: #d63031; box-shadow: 0 4px 12px rgba(214, 48, 49, 0.25);
+            margin-top: 0; flex: 1;
+        }
+        .btn-hapus:active { background: #b71c1c; }
 
         .header-riwayat {
             display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid #edf2f7;
@@ -189,7 +234,7 @@
             margin: 16px 0 10px 0; display: inline-block;
         }
 
-        /* KARTU ARSIP DI RIWAYAT (RINGKAS & DAPAT DIKETUK) */
+        /* KARTU ARSIP */
         .kartu-arsip {
             background: #ffffff; padding: 14px 16px; border-radius: 12px; margin-bottom: 10px;
             text-align: left; border: 1px solid #eef0f5; box-shadow: 0 2px 6px rgba(0,0,0,0.02);
@@ -199,9 +244,7 @@
             border-color: #a29bfe; transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(108, 92, 231, 0.08);
         }
-        .kartu-arsip:active {
-            transform: scale(0.99);
-        }
+        .kartu-arsip:active { transform: scale(0.99); }
         
         .tgl-arsip {
             font-size: 11px; color: #6c5ce7; font-weight: 600; letter-spacing: 0.2px; margin-bottom: 4px;
@@ -212,19 +255,14 @@
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
-        /* HALAMAN DETAIL CATATAN */
+        /* HALAMAN DETAIL */
         .detail-tgl {
             font-size: 12px; color: #6c5ce7; font-weight: 600; margin-bottom: 12px;
         }
         .detail-isi {
             font-size: 15px; line-height: 1.7; color: #2d3436;
-            white-space: pre-wrap; word-break: break-word; margin: 0 0 16px 0;
+            white-space: pre-wrap; word-break: break-word; margin: 0 0 12px 0;
         }
-        .detail-foto {
-            width: 100%; height: auto; border-radius: 10px; display: block;
-            cursor: pointer; border: 1px solid #edf2f7; transition: opacity 0.2s ease;
-        }
-        .detail-foto:active { opacity: 0.85; }
 
         /* MODAL FULLSCREEN */
         .modal-gambar {
@@ -284,15 +322,15 @@
             <p id="tanggal-otomatis"></p>
         </header>
 
-        <!-- HALAMAN 1: TULIS CATATAN -->
+        <!-- HALAMAN 1: TULIS & EDIT CATATAN -->
         <div id="halaman-tulis" class="halaman aktif">
             <textarea id="isi-catatan" placeholder="Bagaimana harimu hari ini? Tulis di sini..."></textarea>
             <div class="penghitung-karakter" id="penghitung-karakter">0 kata | 0 karakter</div>
             
             <div class="area-upload-opsional">
-                <label class="label-upload" for="input-foto">Tambahkan Foto Kenangan (Opsional):</label>
-                <input type="file" id="input-foto" class="input-file-custom" accept="image/*">
-                <img id="preview-foto" src="" alt="Pratinjau Foto">
+                <label class="label-upload" for="input-foto">Tambahkan Foto Kenangan (Bisa Pilih Beberapa):</label>
+                <input type="file" id="input-foto" class="input-file-custom" accept="image/*" multiple>
+                <div id="preview-galeri" class="galeri-grid"></div>
             </div>
 
             <button id="tombol-simpan">Simpan Catatan</button>
@@ -318,8 +356,14 @@
         <div id="halaman-detail" class="halaman">
             <div class="detail-tgl" id="detail-tgl"></div>
             <div class="detail-isi" id="detail-isi"></div>
-            <img id="detail-foto" class="detail-foto" src="" alt="Lampiran Catatan" style="display: none;">
-            <button id="btn-kembali-ke-riwayat" class="btn-sekunder" style="margin-top: 20px;">Kembali ke Riwayat</button>
+            <div id="detail-galeri" class="galeri-grid-detail"></div>
+            
+            <div class="btn-grup-detail">
+                <button id="btn-edit-catatan" class="btn-edit">Edit Catatan</button>
+                <button id="btn-hapus-catatan" class="btn-hapus">Hapus Catatan</button>
+            </div>
+            
+            <button id="btn-kembali-ke-riwayat" class="btn-sekunder" style="margin-top: 14px;">Kembali ke Riwayat</button>
         </div>
     </div>
 
@@ -357,31 +401,42 @@
             tampilkanCatatan();
         });
 
-        document.getElementById("btn-ke-tulis").addEventListener("click", () => bukaHalaman(halTulis));
+        document.getElementById("btn-ke-tulis").addEventListener("click", () => {
+            idCatatanDiedit = null;
+            isiCatatan.value = "";
+            daftarFotoTemp = [];
+            renderPreviewFoto();
+            inputFoto.value = "";
+            updatePenghitung();
+            bukaHalaman(halTulis);
+        });
+
         document.getElementById("btn-kembali-ke-riwayat").addEventListener("click", () => bukaHalaman(halRiwayat));
 
         // DATA & STORAGE
         let kumpulanCatatan = JSON.parse(localStorage.getItem("data_jurnal")) || [];
-        let fotoDataUrlTemp = "";
+        let daftarFotoTemp = [];
+        let idCatatanDiedit = null;
+        let idCatatanAktifDetail = null;
 
         // PENGHITUNG KATA DAN KARAKTER
         const isiCatatan = document.getElementById("isi-catatan");
         const penghitungKarakter = document.getElementById("penghitung-karakter");
 
-        isiCatatan.addEventListener("input", function() {
-            const teks = this.value.trim();
-            const jmlKarakter = this.value.length;
+        function updatePenghitung() {
+            const teks = isiCatatan.value.trim();
+            const jmlKarakter = isiCatatan.value.length;
             const jmlKata = teks === "" ? 0 : teks.split(/\s+/).length;
             penghitungKarakter.innerText = `${jmlKata} kata | ${jmlKarakter} karakter`;
-        });
+        }
 
-        // PROSES UNGGAH GAMBAR
+        isiCatatan.addEventListener("input", updatePenghitung);
+        // PROSES UNGGAH MULTI-FOTO DENGAN KOMPRESI EFISIEN
         const inputFoto = document.getElementById("input-foto");
-        const previewFoto = document.getElementById("preview-foto");
+        const previewGaleri = document.getElementById("preview-galeri");
 
-        inputFoto.addEventListener("change", function(e) {
-            const file = e.target.files[0];
-            if (file) {
+        function kompresDanSimpanGambar(file) {
+            return new Promise((resolve) => {
                 const reader = new FileReader();
                 reader.onload = function(event) {
                     const img = new Image();
@@ -389,7 +444,7 @@
                     img.onload = function() {
                         const canvas = document.createElement("canvas");
                         const ctx = canvas.getContext("2d");
-                        const maxDim = 1200;
+                        const maxDim = 1000;
                         let width = img.width;
                         let height = img.height;
 
@@ -403,66 +458,129 @@
                         canvas.height = height;
                         ctx.drawImage(img, 0, 0, width, height);
 
-                        fotoDataUrlTemp = canvas.toDataURL("image/jpeg", 0.82);
-                        previewFoto.src = fotoDataUrlTemp;
-                        previewFoto.style.display = "block";
+                        resolve(canvas.toDataURL("image/jpeg", 0.75));
                     };
                 };
                 reader.readAsDataURL(file);
+            });
+        }
+
+        function renderPreviewFoto() {
+            previewGaleri.innerHTML = "";
+            daftarFotoTemp.forEach((src) => {
+                const img = document.createElement("img");
+                img.src = src;
+                img.className = "foto-item-preview";
+                previewGaleri.appendChild(img);
+            });
+        }
+
+        inputFoto.addEventListener("change", async function(e) {
+            const files = Array.from(e.target.files);
+            if (files.length > 0) {
+                daftarFotoTemp = [];
+                for (const file of files) {
+                    const base64 = await kompresDanSimpanGambar(file);
+                    daftarFotoTemp.push(base64);
+                }
+                renderPreviewFoto();
             }
         });
 
-        // SIMPAN CATATAN
+        // SIMPAN & PERBARUI CATATAN
         document.getElementById("tombol-simpan").addEventListener("click", function() {
             const teks = isiCatatan.value.trim();
-            if (teks === "" && !fotoDataUrlTemp) {
+            if (teks === "" && daftarFotoTemp.length === 0) {
                 alert("Silakan masukkan teks atau lampirkan foto terlebih dahulu.");
                 return;
             }
 
             const skrg = new Date();
-            const catatanBaru = {
-                id: Date.now(),
-                isoDate: skrg.toISOString().split('T')[0],
-                tanggalTeks: document.getElementById("tanggal-otomatis").innerText,
-                bulanTahun: `${daftarBulan[skrg.getMonth()]} ${skrg.getFullYear()}`,
-                isi: teks,
-                foto: fotoDataUrlTemp
-            };
 
-            kumpulanCatatan.unshift(catatanBaru);
+            if (idCatatanDiedit) {
+                const index = kumpulanCatatan.findIndex(item => item.id === idCatatanDiedit);
+                if (index !== -1) {
+                    kumpulanCatatan[index].isi = teks;
+                    if (daftarFotoTemp.length > 0) {
+                        kumpulanCatatan[index].fotos = daftarFotoTemp;
+                        delete kumpulanCatatan[index].foto;
+                    }
+                }
+                idCatatanDiedit = null;
+            } else {
+                const catatanBaru = {
+                    id: Date.now(),
+                    isoDate: skrg.toISOString().split('T')[0],
+                    tanggalTeks: document.getElementById("tanggal-otomatis").innerText,
+                    bulanTahun: `${daftarBulan[skrg.getMonth()]} ${skrg.getFullYear()}`,
+                    isi: teks,
+                    fotos: daftarFotoTemp
+                };
+                kumpulanCatatan.unshift(catatanBaru);
+            }
+
             localStorage.setItem("data_jurnal", JSON.stringify(kumpulanCatatan));
 
             isiCatatan.value = "";
             penghitungKarakter.innerText = "0 kata | 0 karakter";
-            fotoDataUrlTemp = "";
-            previewFoto.style.display = "none";
+            daftarFotoTemp = [];
+            renderPreviewFoto();
             inputFoto.value = "";
 
             bukaHalaman(halRiwayat);
             tampilkanCatatan();
         });
 
-        // BUKA HALAMAN DETAIL CATATAN
+        // DETAIL CATATAN
         function lihatDetailCatatan(id) {
             const catatan = kumpulanCatatan.find(item => item.id === id);
             if (!catatan) return;
 
+            idCatatanAktifDetail = id;
             document.getElementById("detail-tgl").innerText = catatan.tanggalTeks || catatan.tanggal || "Catatan";
             document.getElementById("detail-isi").innerText = catatan.isi || "";
 
-            const imgDetail = document.getElementById("detail-foto");
-            if (catatan.foto) {
-                imgDetail.src = catatan.foto;
-                imgDetail.style.display = "block";
-                imgDetail.onclick = () => bukaModalGambar(catatan.foto);
-            } else {
-                imgDetail.style.display = "none";
-                imgDetail.src = "";
-            }
+            const containerGaleri = document.getElementById("detail-galeri");
+            containerGaleri.innerHTML = "";
+
+            // Mendukung multi-foto baru maupun format 1 foto lama
+            const arrayFoto = catatan.fotos || (catatan.foto ? [catatan.foto] : []);
+            
+            arrayFoto.forEach(src => {
+                const img = document.createElement("img");
+                img.src = src;
+                img.className = "foto-item-detail";
+                img.onclick = () => bukaModalGambar(src);
+                containerGaleri.appendChild(img);
+            });
 
             bukaHalaman(halDetail);
         }
+
+        // EDIT CATATAN
+        document.getElementById("btn-edit-catatan").addEventListener("click", function() {
+            const catatan = kumpulanCatatan.find(item => item.id === idCatatanAktifDetail);
+            if (!catatan) return;
+
+            idCatatanDiedit = catatan.id;
+            isiCatatan.value = catatan.isi || "";
+            updatePenghitung();
+
+            daftarFotoTemp = catatan.fotos || (catatan.foto ? [catatan.foto] : []);
+            renderPreviewFoto();
+
+            bukaHalaman(halTulis);
+        });
+
+        // HAPUS CATATAN
+        document.getElementById("btn-hapus-catatan").addEventListener("click", function() {
+            if (confirm("Apakah Anda yakin ingin menghapus catatan ini?")) {
+                kumpulanCatatan = kumpulanCatatan.filter(item => item.id !== idCatatanAktifDetail);
+                localStorage.setItem("data_jurnal", JSON.stringify(kumpulanCatatan));
+                bukaHalaman(halRiwayat);
+                tampilkanCatatan();
+            }
+        });
 
         // RENDER RIWAYAT ARSIP
         const areaDaftar = document.getElementById("daftar-catatan");
