@@ -88,7 +88,7 @@
         .halaman.aktif { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* GARIS TEPI BIRU LEMBUT TEXTAREA */
+        /* TEXTAREA & INPUT */
         textarea {
             width: 100%; height: 130px; border: 2px solid #dcd6f7; border-radius: 12px;
             padding: 14px; font-size: 15px; line-height: 1.6; resize: none; outline: none;
@@ -104,7 +104,6 @@
             text-align: right; font-size: 11px; color: #7f8c8d; margin-top: 6px; margin-bottom: 12px;
         }
 
-        /* AREA UPLOAD FOTO */
         .area-upload-opsional {
             margin-top: 8px;
             display: flex;
@@ -140,7 +139,7 @@
             border: 2px solid #dcd6f7;
         }
 
-        /* TOMBOL UTAMA */
+        /* TOMBOL */
         button {
             width: 100%; background: #6c5ce7; color: white; border: none; padding: 14px 18px;
             font-size: 14px; font-weight: 600; letter-spacing: 0.3px; border-radius: 10px;
@@ -190,28 +189,42 @@
             margin: 16px 0 10px 0; display: inline-block;
         }
 
-        /* KARTU CATATAN */
-        .kartu-catatan {
-            background: #ffffff; padding: 16px; border-radius: 12px; margin-bottom: 12px;
-            text-align: left; border: 1px solid #eef0f5; box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-            transition: border-color 0.2s ease;
+        /* KARTU ARSIP DI RIWAYAT (RINGKAS & DAPAT DIKETUK) */
+        .kartu-arsip {
+            background: #ffffff; padding: 14px 16px; border-radius: 12px; margin-bottom: 10px;
+            text-align: left; border: 1px solid #eef0f5; box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            cursor: pointer; transition: all 0.2s ease;
+        }
+        .kartu-arsip:hover {
+            border-color: #a29bfe; transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.08);
+        }
+        .kartu-arsip:active {
+            transform: scale(0.99);
         }
         
-        .tgl-catatan {
-            font-size: 12px; color: #6c5ce7; font-weight: 600; letter-spacing: 0.2px;
+        .tgl-arsip {
+            font-size: 11px; color: #6c5ce7; font-weight: 600; letter-spacing: 0.2px; margin-bottom: 4px;
         }
 
-        .isi-teks-catatan {
-            margin: 8px 0 0 0; font-size: 14px; line-height: 1.6; color: #2f3542;
-            white-space: pre-wrap; word-break: break-word;
+        .judul-arsip {
+            font-size: 14px; font-weight: 600; color: #2d3436;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
-        .kartu-catatan img {
-            width: 100%; height: auto; border-radius: 8px; margin-top: 12px;
-            display: block; cursor: pointer; transition: opacity 0.2s ease;
-            border: 1px solid #edf2f7;
+        /* HALAMAN DETAIL CATATAN */
+        .detail-tgl {
+            font-size: 12px; color: #6c5ce7; font-weight: 600; margin-bottom: 12px;
         }
-        .kartu-catatan img:active { opacity: 0.85; }
+        .detail-isi {
+            font-size: 15px; line-height: 1.7; color: #2d3436;
+            white-space: pre-wrap; word-break: break-word; margin: 0 0 16px 0;
+        }
+        .detail-foto {
+            width: 100%; height: auto; border-radius: 10px; display: block;
+            cursor: pointer; border: 1px solid #edf2f7; transition: opacity 0.2s ease;
+        }
+        .detail-foto:active { opacity: 0.85; }
 
         /* MODAL FULLSCREEN */
         .modal-gambar {
@@ -286,7 +299,7 @@
             <button id="btn-ke-riwayat" class="btn-sekunder">Lihat Riwayat Catatan</button>
         </div>
 
-        <!-- HALAMAN 2: RIWAYAT & PENCARIAN -->
+        <!-- HALAMAN 2: RIWAYAT ARSIP -->
         <div id="halaman-riwayat" class="halaman">
             <div class="header-riwayat">
                 <h2>Riwayat Catatan</h2>
@@ -299,6 +312,14 @@
 
             <div id="daftar-catatan"></div>
             <button id="btn-ke-tulis" class="btn-sekunder" style="margin-top: 18px;">Kembali Tulis Catatan</button>
+        </div>
+
+        <!-- HALAMAN 3: DETAIL LENGKAP CATATAN -->
+        <div id="halaman-detail" class="halaman">
+            <div class="detail-tgl" id="detail-tgl"></div>
+            <div class="detail-isi" id="detail-isi"></div>
+            <img id="detail-foto" class="detail-foto" src="" alt="Lampiran Catatan" style="display: none;">
+            <button id="btn-kembali-ke-riwayat" class="btn-sekunder" style="margin-top: 20px;">Kembali ke Riwayat</button>
         </div>
     </div>
 
@@ -321,25 +342,23 @@
         }
         aturTemaDanTanggal();
 
-        // NAVIGASI HALAMAN
+        // NAVIGASI MULTI-HALAMAN
         const halTulis = document.getElementById("halaman-tulis");
         const halRiwayat = document.getElementById("halaman-riwayat");
-        const btnKeRiwayat = document.getElementById("btn-ke-riwayat");
-        const btnKeTulis = document.getElementById("btn-ke-tulis");
+        const halDetail = document.getElementById("halaman-detail");
 
-        function bukaHalamanRiwayat() {
-            halTulis.classList.remove("aktif");
-            halRiwayat.classList.add("aktif");
+        function bukaHalaman(halamanTujuan) {
+            [halTulis, halRiwayat, halDetail].forEach(h => h.classList.remove("aktif"));
+            halamanTujuan.classList.add("aktif");
+        }
+
+        document.getElementById("btn-ke-riwayat").addEventListener("click", () => {
+            bukaHalaman(halRiwayat);
             tampilkanCatatan();
-        }
+        });
 
-        function bukaHalamanTulis() {
-            halRiwayat.classList.remove("aktif");
-            halTulis.classList.add("aktif");
-        }
-
-        btnKeRiwayat.addEventListener("click", bukaHalamanRiwayat);
-        btnKeTulis.addEventListener("click", bukaHalamanTulis);
+        document.getElementById("btn-ke-tulis").addEventListener("click", () => bukaHalaman(halTulis));
+        document.getElementById("btn-kembali-ke-riwayat").addEventListener("click", () => bukaHalaman(halRiwayat));
 
         // DATA & STORAGE
         let kumpulanCatatan = JSON.parse(localStorage.getItem("data_jurnal")) || [];
@@ -420,14 +439,42 @@
             previewFoto.style.display = "none";
             inputFoto.value = "";
 
-            bukaHalamanRiwayat();
+            bukaHalaman(halRiwayat);
+            tampilkanCatatan();
         });
 
-        // RENDER RIWAYAT CATATAN
+        // BUKA HALAMAN DETAIL CATATAN
+        function lihatDetailCatatan(id) {
+            const catatan = kumpulanCatatan.find(item => item.id === id);
+            if (!catatan) return;
+
+            document.getElementById("detail-tgl").innerText = catatan.tanggalTeks || catatan.tanggal || "Catatan";
+            document.getElementById("detail-isi").innerText = catatan.isi || "";
+
+            const imgDetail = document.getElementById("detail-foto");
+            if (catatan.foto) {
+                imgDetail.src = catatan.foto;
+                imgDetail.style.display = "block";
+                imgDetail.onclick = () => bukaModalGambar(catatan.foto);
+            } else {
+                imgDetail.style.display = "none";
+                imgDetail.src = "";
+            }
+
+            bukaHalaman(halDetail);
+        }
+
+        // RENDER RIWAYAT ARSIP
         const areaDaftar = document.getElementById("daftar-catatan");
         const inputCariTanggal = document.getElementById("input-cari-tanggal");
         const inputCariTeks = document.getElementById("input-cari-teks");
         const btnResetFilter = document.getElementById("btn-reset-filter");
+
+        function ambilJudulBarisPertama(isiTeks) {
+            if (!isiTeks) return "Lampiran Foto Kenangan";
+            const barisPertama = isiTeks.split("\n")[0].trim();
+            return barisPertama || "Catatan Tanpa Judul";
+        }
 
         function tampilkanCatatan() {
             areaDaftar.innerHTML = "";
@@ -459,12 +506,14 @@
                     bulanTerakhir = blnThn;
                 }
 
+                const judulRingkas = ambilJudulBarisPertama(item.isi);
+
                 const divItem = document.createElement("div");
-                divItem.className = "kartu-catatan";
+                divItem.className = "kartu-arsip";
+                divItem.onclick = () => lihatDetailCatatan(item.id);
                 divItem.innerHTML = `
-                    <div class="tgl-catatan">${teksTgl}</div>
-                    ${item.isi ? `<p class="isi-teks-catatan">${item.isi}</p>` : ''}
-                    ${item.foto ? `<img src="${item.foto}" alt="Lampiran Catatan" onclick="bukaModalGambar('${item.foto}')">` : ''}
+                    <div class="tgl-arsip">${teksTgl}</div>
+                    <div class="judul-arsip">${judulRingkas}</div>
                 `;
                 areaDaftar.appendChild(divItem);
             });
